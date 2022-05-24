@@ -308,10 +308,21 @@ public struct FormatSumTextField: UIViewRepresentable {
         
         public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
             guard let formatter = formatter else { return true }
+          
+            var editedString: String {
+              get {
+                if string == "." {
+                  return ","
+                } else {
+                  return string
+                }
+              }
+            }
+          
             let result = formatter.formatInput(
                 currentText: textField.text ?? "",
                 range: range,
-                replacementString: string
+                replacementString: editedString
             )
             textField.text = result.formattedText
             textField.setCursorLocation(result.caretBeginOffset)
